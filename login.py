@@ -14,7 +14,7 @@ def login(cardnum, password):
     ss.headers = headers
 
     #  获取登录页面表单，解析隐藏值
-    url = "https://newids.seu.edu.cn/authserver/login?goto=http://my.seu.edu.cn/index.portal"
+    url = "http://authserver.qtc.edu.cn/authserver/login?service=http://ehall.qtc.edu.cn/"
     res = ss.get(url, headers=headers)
     soup = BeautifulSoup(res.text, 'html.parser')
     attrs = soup.select('[tabid="01"] input[type="hidden"]')
@@ -29,17 +29,8 @@ def login(cardnum, password):
 
     # 登录ehall(存在多次302)
     res = ss.get(
-        'http://ehall.seu.edu.cn/login?service=http://ehall.seu.edu.cn/new/index.html')
+        'http://ehall.qtc.edu.cn/login?service=http://ehall.qtc.edu.cn/new/index.html')
 
-    # 获取登录信息（验证结果）
-    res = ss.get('http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json')
-
-    json_res = json.loads(res.text)
-    try:
-        name = json_res["userName"]
-        print(name[0], "** 登陆成功！")
-    except Exception:
-        print("认证失败！")
-        return False
+  
 
     return ss
